@@ -137,7 +137,7 @@ For example one could create a function for a maven template, say `mavenTemplate
     def call() {
     podTemplate(label: label,
             containers: [containerTemplate(name: 'maven', image: 'maven', command: 'cat', ttyEnabled: true)],
-            volumes: [secretVolume(secretName: 'maven-settings', mountPath: '/root/.m2'),
+            volumes: [secretVolume(secretName: 'maven-settings', mountPath: '/root/.m2', defaultMode: 750),
                       persistentVolumeClaim(claimName: 'maven-local-repo', mountPath: '/root/.m2nrepo')]) {
         body()
     }
@@ -191,7 +191,7 @@ podTemplate(label: 'mypod', containers: [
 ],
 volumes: [
     emptyDirVolume(mountPath: '/etc/mount1', memory: false),
-    secretVolume(mountPath: '/etc/mount2', secretName: 'my-secret'),
+    secretVolume(mountPath: '/etc/mount2', secretName: 'my-secret', defaultMode: 750),
     configMapVolume(mountPath: '/etc/mount3', configMapName: 'my-config'),
     hostPathVolume(mountPath: '/etc/mount4', hostPath: '/mnt/my-mount'),
     nfsVolume(mountPath: '/etc/mount5', serverAddress: '127.0.0.1', serverPath: '/', readOnly: true),

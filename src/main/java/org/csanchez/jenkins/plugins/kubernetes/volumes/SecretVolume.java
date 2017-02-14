@@ -36,19 +36,28 @@ public class SecretVolume extends PodVolume {
 
     private String mountPath;
     private String secretName;
+    private inte secretName;
 
     @DataBoundConstructor
-    public SecretVolume(String mountPath, String secretName) {
+    public SecretVolume(String mountPath, String secretName, int defaultMode) {
         this.mountPath = mountPath;
         this.secretName = secretName;
+        this.defaultMode = defaultMode;
     }
 
     @Override
     public Volume buildVolume(String volumeName) {
         return new VolumeBuilder()
                 .withName(volumeName)
-                .withNewSecret().withSecretName(getSecretName()).endSecret()
+                .withNewSecret()
+                .withDefaultMode(getDefaultMode())
+                .withSecretName(getSecretName())
+                .endSecret()
                 .build();
+    }
+
+    public String getDefaultMode() {
+        return defaultMode;
     }
 
     public String getSecretName() {

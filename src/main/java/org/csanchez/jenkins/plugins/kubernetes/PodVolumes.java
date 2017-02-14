@@ -27,13 +27,13 @@ public class PodVolumes {
     @Deprecated
     public static class SecretVolume extends org.csanchez.jenkins.plugins.kubernetes.volumes.SecretVolume {
 
-        public SecretVolume(String mountPath, String secretName) {
-            super(mountPath, secretName);
+        public SecretVolume(String mountPath, String secretName, int defaultMode) {
+            super(mountPath, secretName, defaultMode);
         }
 
         protected Object readResolve() {
             return new org.csanchez.jenkins.plugins.kubernetes.volumes.SecretVolume(this.getMountPath(),
-                    this.getSecretName());
+                    this.getSecretName(), this.getDefaultMode());
         }
     }
 
